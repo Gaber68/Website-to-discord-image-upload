@@ -57,94 +57,199 @@ export default function ImageUploader() {
     }
   };
 
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      background: 'linear-gradient(to bottom right, #6366f1, #a855f7, #ec4899)',
+      padding: '2rem',
+      fontFamily: 'system-ui, -apple-system, sans-serif'
+    },
+    card: {
+      maxWidth: '42rem',
+      margin: '0 auto',
+      background: 'white',
+      borderRadius: '1rem',
+      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+      padding: '2rem'
+    },
+    header: {
+      textAlign: 'center',
+      marginBottom: '2rem'
+    },
+    title: {
+      fontSize: '2.25rem',
+      fontWeight: 'bold',
+      color: '#1f2937',
+      marginBottom: '0.5rem'
+    },
+    subtitle: {
+      color: '#6b7280'
+    },
+    label: {
+      display: 'block',
+      fontSize: '0.875rem',
+      fontWeight: '500',
+      color: '#374151',
+      marginBottom: '0.5rem'
+    },
+    input: {
+      width: '100%',
+      padding: '0.5rem 1rem',
+      border: '1px solid #d1d5db',
+      borderRadius: '0.5rem',
+      fontSize: '1rem',
+      boxSizing: 'border-box'
+    },
+    uploadArea: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      padding: '2rem',
+      border: '2px dashed #d1d5db',
+      borderRadius: '0.5rem',
+      cursor: 'pointer',
+      background: '#f9fafb',
+      transition: 'border-color 0.2s'
+    },
+    button: {
+      width: '100%',
+      background: 'linear-gradient(to right, #9333ea, #ec4899)',
+      color: 'white',
+      fontWeight: '600',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+      fontSize: '1rem'
+    },
+    buttonDisabled: {
+      opacity: 0.5,
+      cursor: 'not-allowed'
+    },
+    preview: {
+      width: '100%',
+      height: '16rem',
+      objectFit: 'cover',
+      borderRadius: '0.5rem',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+    },
+    alert: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      padding: '1rem',
+      borderRadius: '0.5rem'
+    },
+    alertSuccess: {
+      background: '#f0fdf4',
+      color: '#166534'
+    },
+    alertError: {
+      background: '#fef2f2',
+      color: '#991b1b'
+    },
+    instructions: {
+      marginTop: '2rem',
+      background: 'rgba(255, 255, 255, 0.9)',
+      borderRadius: '0.5rem',
+      padding: '1.5rem',
+      fontSize: '0.875rem',
+      color: '#374151'
+    },
+    spinner: {
+      width: '1.25rem',
+      height: '1.25rem',
+      border: '2px solid transparent',
+      borderTopColor: 'white',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite'
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">
-              Discord Image Uploader
-            </h1>
-            <p className="text-gray-600">Upload and send images to Discord via webhook</p>
+    <>
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+      <div style={styles.container}>
+        <div style={styles.card}>
+          <div style={styles.header}>
+            <h1 style={styles.title}>Discord Image Uploader</h1>
+            <p style={styles.subtitle}>Upload and send images to Discord via webhook</p>
           </div>
 
-          <div className="space-y-6">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Discord Webhook URL
-              </label>
+              <label style={styles.label}>Discord Webhook URL</label>
               <input
                 type="url"
                 value={webhook}
                 onChange={(e) => setWebhook(e.target.value)}
                 placeholder="https://discord.com/api/webhooks/..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                style={styles.input}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message (Optional)
-              </label>
+              <label style={styles.label}>Message (Optional)</label>
               <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Add a message with your image..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                style={styles.input}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Upload Image
+              <label style={styles.label}>Upload Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+                id="file-upload"
+              />
+              <label htmlFor="file-upload" style={styles.uploadArea}>
+                <div style={{ textAlign: 'center' }}>
+                  <Upload style={{ margin: '0 auto 0.5rem', color: '#9ca3af' }} size={48} />
+                  <span style={{ color: '#4b5563' }}>
+                    {image ? image.name : 'Click to upload an image'}
+                  </span>
+                </div>
               </label>
-              <div className="relative">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  id="file-upload"
-                />
-                <label
-                  htmlFor="file-upload"
-                  className="flex items-center justify-center w-full px-4 py-8 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition-colors bg-gray-50"
-                >
-                  <div className="text-center">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400 mb-2" />
-                    <span className="text-gray-600">
-                      {image ? image.name : 'Click to upload an image'}
-                    </span>
-                  </div>
-                </label>
-              </div>
             </div>
 
             {preview && (
-              <div className="mt-4">
-                <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
-                />
+              <div>
+                <p style={styles.label}>Preview:</p>
+                <img src={preview} alt="Preview" style={styles.preview} />
               </div>
             )}
 
             <button
               onClick={handleSubmit}
               disabled={loading || !image || !webhook}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              style={{
+                ...styles.button,
+                ...(loading || !image || !webhook ? styles.buttonDisabled : {})
+              }}
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div style={styles.spinner}></div>
                   Sending...
                 </>
               ) : (
                 <>
-                  <Send className="h-5 w-5" />
+                  <Send size={20} />
                   Send to Discord
                 </>
               )}
@@ -152,16 +257,15 @@ export default function ImageUploader() {
 
             {status && (
               <div
-                className={`flex items-center gap-2 p-4 rounded-lg ${
-                  status.startsWith('success')
-                    ? 'bg-green-50 text-green-800'
-                    : 'bg-red-50 text-red-800'
-                }`}
+                style={{
+                  ...styles.alert,
+                  ...(status.startsWith('success') ? styles.alertSuccess : styles.alertError)
+                }}
               >
                 {status.startsWith('success') ? (
-                  <CheckCircle className="h-5 w-5" />
+                  <CheckCircle size={20} />
                 ) : (
-                  <AlertCircle className="h-5 w-5" />
+                  <AlertCircle size={20} />
                 )}
                 <span>{status.split(':')[1]}</span>
               </div>
@@ -169,9 +273,11 @@ export default function ImageUploader() {
           </div>
         </div>
 
-        <div className="mt-8 bg-white bg-opacity-90 rounded-lg p-6 text-sm text-gray-700">
-          <h3 className="font-semibold mb-2">How to get your Discord Webhook:</h3>
-          <ol className="list-decimal list-inside space-y-1">
+        <div style={styles.instructions}>
+          <h3 style={{ fontWeight: '600', marginBottom: '0.5rem' }}>
+            How to get your Discord Webhook:
+          </h3>
+          <ol style={{ marginLeft: '1.25rem' }}>
             <li>Go to your Discord server settings</li>
             <li>Navigate to Integrations → Webhooks</li>
             <li>Click "New Webhook" or select an existing one</li>
@@ -179,6 +285,6 @@ export default function ImageUploader() {
           </ol>
         </div>
       </div>
-    </div>
+    </>
   );
 }
