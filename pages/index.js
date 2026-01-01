@@ -60,106 +60,151 @@ export default function ImageUploader() {
   const styles = {
     container: {
       minHeight: '100vh',
-      background: 'linear-gradient(to bottom right, #6366f1, #a855f7, #ec4899)',
-      padding: '2rem',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '3rem 1.5rem',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     card: {
-      maxWidth: '42rem',
-      margin: '0 auto',
+      width: '100%',
+      maxWidth: '500px',
       background: 'white',
-      borderRadius: '1rem',
-      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-      padding: '2rem'
+      borderRadius: '1.5rem',
+      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+      padding: '2.5rem',
+      marginBottom: '2rem'
     },
     header: {
       textAlign: 'center',
       marginBottom: '2rem'
     },
     title: {
-      fontSize: '2.25rem',
+      fontSize: '2rem',
       fontWeight: 'bold',
       color: '#1f2937',
-      marginBottom: '0.5rem'
+      marginBottom: '0.5rem',
+      margin: '0 0 0.5rem 0'
     },
     subtitle: {
-      color: '#6b7280'
+      color: '#6b7280',
+      fontSize: '0.95rem',
+      margin: 0
+    },
+    formGroup: {
+      marginBottom: '1.5rem'
     },
     label: {
       display: 'block',
       fontSize: '0.875rem',
-      fontWeight: '500',
+      fontWeight: '600',
       color: '#374151',
       marginBottom: '0.5rem'
     },
     input: {
       width: '100%',
-      padding: '0.5rem 1rem',
-      border: '1px solid #d1d5db',
-      borderRadius: '0.5rem',
-      fontSize: '1rem',
-      boxSizing: 'border-box'
+      padding: '0.75rem 1rem',
+      border: '2px solid #e5e7eb',
+      borderRadius: '0.75rem',
+      fontSize: '0.95rem',
+      boxSizing: 'border-box',
+      transition: 'border-color 0.2s',
+      outline: 'none'
     },
     uploadArea: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       width: '100%',
-      padding: '2rem',
-      border: '2px dashed #d1d5db',
-      borderRadius: '0.5rem',
+      padding: '3rem 2rem',
+      border: '3px dashed #10b981',
+      borderRadius: '1rem',
       cursor: 'pointer',
-      background: '#f9fafb',
-      transition: 'border-color 0.2s'
+      background: '#f0fdf4',
+      transition: 'all 0.3s',
+      boxSizing: 'border-box'
+    },
+    uploadAreaHover: {
+      borderColor: '#059669',
+      background: '#dcfce7'
     },
     button: {
       width: '100%',
-      background: 'linear-gradient(to right, #9333ea, #ec4899)',
+      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
       color: 'white',
       fontWeight: '600',
-      padding: '0.75rem',
-      borderRadius: '0.5rem',
+      padding: '1rem',
+      borderRadius: '0.75rem',
       border: 'none',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       gap: '0.5rem',
-      fontSize: '1rem'
+      fontSize: '1rem',
+      transition: 'transform 0.2s, box-shadow 0.2s',
+      boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)'
+    },
+    buttonHover: {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 20px rgba(16, 185, 129, 0.5)'
     },
     buttonDisabled: {
       opacity: 0.5,
-      cursor: 'not-allowed'
+      cursor: 'not-allowed',
+      transform: 'none'
     },
     preview: {
       width: '100%',
-      height: '16rem',
-      objectFit: 'cover',
-      borderRadius: '0.5rem',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+      maxHeight: '300px',
+      objectFit: 'contain',
+      borderRadius: '0.75rem',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+      border: '3px solid #10b981'
     },
     alert: {
       display: 'flex',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: '0.75rem',
       padding: '1rem',
-      borderRadius: '0.5rem'
+      borderRadius: '0.75rem',
+      marginTop: '1rem',
+      fontWeight: '500'
     },
     alertSuccess: {
-      background: '#f0fdf4',
-      color: '#166534'
+      background: '#d1fae5',
+      color: '#065f46',
+      border: '2px solid #10b981'
     },
     alertError: {
-      background: '#fef2f2',
-      color: '#991b1b'
+      background: '#fee2e2',
+      color: '#991b1b',
+      border: '2px solid #ef4444'
     },
     instructions: {
-      marginTop: '2rem',
-      background: 'rgba(255, 255, 255, 0.9)',
-      borderRadius: '0.5rem',
+      width: '100%',
+      maxWidth: '500px',
+      background: 'rgba(255, 255, 255, 0.95)',
+      borderRadius: '1rem',
       padding: '1.5rem',
       fontSize: '0.875rem',
-      color: '#374151'
+      color: '#374151',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
+    },
+    instructionsTitle: {
+      fontWeight: '600',
+      marginBottom: '0.75rem',
+      fontSize: '1rem',
+      color: '#1f2937',
+      margin: '0 0 0.75rem 0'
+    },
+    instructionsList: {
+      marginLeft: '1.25rem',
+      lineHeight: '1.8',
+      margin: '0',
+      paddingLeft: '1.25rem'
     },
     spinner: {
       width: '1.25rem',
@@ -177,6 +222,9 @@ export default function ImageUploader() {
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
+        input:focus {
+          border-color: #10b981 !important;
+        }
       `}</style>
       <div style={styles.container}>
         <div style={styles.card}>
@@ -185,8 +233,8 @@ export default function ImageUploader() {
             <p style={styles.subtitle}>Upload and send images to Discord via webhook</p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div>
+          <div>
+            <div style={styles.formGroup}>
               <label style={styles.label}>Discord Webhook URL</label>
               <input
                 type="url"
@@ -197,7 +245,7 @@ export default function ImageUploader() {
               />
             </div>
 
-            <div>
+            <div style={styles.formGroup}>
               <label style={styles.label}>Message (Optional)</label>
               <input
                 type="text"
@@ -208,7 +256,7 @@ export default function ImageUploader() {
               />
             </div>
 
-            <div>
+            <div style={styles.formGroup}>
               <label style={styles.label}>Upload Image</label>
               <input
                 type="file"
@@ -219,8 +267,8 @@ export default function ImageUploader() {
               />
               <label htmlFor="file-upload" style={styles.uploadArea}>
                 <div style={{ textAlign: 'center' }}>
-                  <Upload style={{ margin: '0 auto 0.5rem', color: '#9ca3af' }} size={48} />
-                  <span style={{ color: '#4b5563' }}>
+                  <Upload style={{ margin: '0 auto 0.75rem', color: '#10b981' }} size={48} />
+                  <span style={{ color: '#059669', fontWeight: '500' }}>
                     {image ? image.name : 'Click to upload an image'}
                   </span>
                 </div>
@@ -228,8 +276,8 @@ export default function ImageUploader() {
             </div>
 
             {preview && (
-              <div>
-                <p style={styles.label}>Preview:</p>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Preview:</label>
                 <img src={preview} alt="Preview" style={styles.preview} />
               </div>
             )}
@@ -274,10 +322,10 @@ export default function ImageUploader() {
         </div>
 
         <div style={styles.instructions}>
-          <h3 style={{ fontWeight: '600', marginBottom: '0.5rem' }}>
+          <h3 style={styles.instructionsTitle}>
             How to get your Discord Webhook:
           </h3>
-          <ol style={{ marginLeft: '1.25rem' }}>
+          <ol style={styles.instructionsList}>
             <li>Go to your Discord server settings</li>
             <li>Navigate to Integrations → Webhooks</li>
             <li>Click "New Webhook" or select an existing one</li>
