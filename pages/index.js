@@ -32,10 +32,7 @@ export default function ImageUploader() {
     try {
       const formData = new FormData();
       formData.append('file', image);
-      
-      if (message) {
-        formData.append('content', message);
-      }
+      if (message) formData.append('content', message);
 
       const response = await fetch(webhook, {
         method: 'POST',
@@ -47,7 +44,6 @@ export default function ImageUploader() {
         setImage(null);
         setPreview(null);
         setMessage('');
-        // Reset file input
         const fileInput = document.getElementById('file-upload');
         if (fileInput) fileInput.value = '';
       } else {
@@ -61,14 +57,16 @@ export default function ImageUploader() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8 fade-up">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        <div className="glass-card gradient-border rounded-2xl shadow-2xl p-8 fade-up">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-800 mb-2">
               Discord Image Uploader
             </h1>
-            <p className="text-gray-600">Upload and send images to Discord via webhook</p>
+            <p className="text-gray-600">
+              Upload and send images to Discord via webhook
+            </p>
           </div>
 
           <div className="space-y-6">
@@ -125,12 +123,12 @@ export default function ImageUploader() {
             </div>
 
             {preview && (
-              <div className="mt-4">
+              <div className="mt-4 fade-up">
                 <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
                 <img
                   src={preview}
                   alt="Preview"
-                  className="w-full h-64 object-cover rounded-lg shadow-md"
+                  className="w-full h-64 object-cover rounded-lg shadow-md image-hover"
                 />
               </div>
             )}
@@ -138,7 +136,7 @@ export default function ImageUploader() {
             <button
               onClick={handleSubmit}
               disabled={loading || !image || !webhook}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg glow-button hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -155,7 +153,7 @@ export default function ImageUploader() {
 
             {status && (
               <div
-                className={`flex items-center gap-2 p-4 rounded-lg ${
+                className={`flex items-center gap-2 p-4 rounded-lg fade-up ${
                   status.startsWith('success')
                     ? 'bg-green-50 text-green-800'
                     : 'bg-red-50 text-red-800'
@@ -172,12 +170,12 @@ export default function ImageUploader() {
           </div>
         </div>
 
-        <div className="mt-8 bg-white bg-opacity-90 rounded-lg p-6 text-sm text-gray-700">
+        <div className="mt-8 bg-white bg-opacity-90 rounded-lg p-6 text-sm text-gray-700 fade-up">
           <h3 className="font-semibold mb-2">How to get your Discord Webhook:</h3>
           <ol className="list-decimal list-inside space-y-1">
             <li>Go to your Discord server settings</li>
             <li>Navigate to Integrations → Webhooks</li>
-            <li>Click "New Webhook" or select an existing one</li>
+            <li>Click "New Webhook"</li>
             <li>Copy the webhook URL and paste it above</li>
           </ol>
         </div>
@@ -185,3 +183,4 @@ export default function ImageUploader() {
     </div>
   );
 }
+
