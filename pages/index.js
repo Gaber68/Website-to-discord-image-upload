@@ -32,7 +32,10 @@ export default function ImageUploader() {
     try {
       const formData = new FormData();
       formData.append('file', image);
-      if (message) formData.append('content', message);
+      
+      if (message) {
+        formData.append('content', message);
+      }
 
       const response = await fetch(webhook, {
         method: 'POST',
@@ -44,8 +47,6 @@ export default function ImageUploader() {
         setImage(null);
         setPreview(null);
         setMessage('');
-        const fileInput = document.getElementById('file-upload');
-        if (fileInput) fileInput.value = '';
       } else {
         setStatus('error:Failed to send image. Check your webhook URL.');
       }
@@ -56,96 +57,247 @@ export default function ImageUploader() {
     }
   };
 
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '3rem 1.5rem',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    card: {
+      width: '100%',
+      maxWidth: '500px',
+      background: 'white',
+      borderRadius: '1.5rem',
+      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+      padding: '2.5rem',
+      marginBottom: '2rem'
+    },
+    header: {
+      textAlign: 'center',
+      marginBottom: '2rem'
+    },
+    title: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      color: '#1f2937',
+      marginBottom: '0.5rem',
+      margin: '0 0 0.5rem 0'
+    },
+    subtitle: {
+      color: '#6b7280',
+      fontSize: '0.95rem',
+      margin: 0
+    },
+    formGroup: {
+      marginBottom: '1.5rem'
+    },
+    label: {
+      display: 'block',
+      fontSize: '0.875rem',
+      fontWeight: '600',
+      color: '#374151',
+      marginBottom: '0.5rem'
+    },
+    input: {
+      width: '100%',
+      padding: '0.75rem 1rem',
+      border: '2px solid #e5e7eb',
+      borderRadius: '0.75rem',
+      fontSize: '0.95rem',
+      boxSizing: 'border-box',
+      transition: 'border-color 0.2s',
+      outline: 'none'
+    },
+    uploadArea: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      padding: '3rem 2rem',
+      border: '3px dashed #10b981',
+      borderRadius: '1rem',
+      cursor: 'pointer',
+      background: '#f0fdf4',
+      transition: 'all 0.3s',
+      boxSizing: 'border-box'
+    },
+    uploadAreaHover: {
+      borderColor: '#059669',
+      background: '#dcfce7'
+    },
+    button: {
+      width: '100%',
+      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+      color: 'white',
+      fontWeight: '600',
+      padding: '1rem',
+      borderRadius: '0.75rem',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+      fontSize: '1rem',
+      transition: 'transform 0.2s, box-shadow 0.2s',
+      boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)'
+    },
+    buttonHover: {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 20px rgba(16, 185, 129, 0.5)'
+    },
+    buttonDisabled: {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+      transform: 'none'
+    },
+    preview: {
+      width: '100%',
+      maxHeight: '300px',
+      objectFit: 'contain',
+      borderRadius: '0.75rem',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+      border: '3px solid #10b981'
+    },
+    alert: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.75rem',
+      padding: '1rem',
+      borderRadius: '0.75rem',
+      marginTop: '1rem',
+      fontWeight: '500'
+    },
+    alertSuccess: {
+      background: '#d1fae5',
+      color: '#065f46',
+      border: '2px solid #10b981'
+    },
+    alertError: {
+      background: '#fee2e2',
+      color: '#991b1b',
+      border: '2px solid #ef4444'
+    },
+    instructions: {
+      width: '100%',
+      maxWidth: '500px',
+      background: 'rgba(255, 255, 255, 0.95)',
+      borderRadius: '1rem',
+      padding: '1.5rem',
+      fontSize: '0.875rem',
+      color: '#374151',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
+    },
+    instructionsTitle: {
+      fontWeight: '600',
+      marginBottom: '0.75rem',
+      fontSize: '1rem',
+      color: '#1f2937',
+      margin: '0 0 0.75rem 0'
+    },
+    instructionsList: {
+      marginLeft: '1.25rem',
+      lineHeight: '1.8',
+      margin: '0',
+      paddingLeft: '1.25rem'
+    },
+    spinner: {
+      width: '1.25rem',
+      height: '1.25rem',
+      border: '2px solid transparent',
+      borderTopColor: 'white',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite'
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8 fade-up">
-      <div className="max-w-2xl mx-auto">
-        <div className="glass-card gradient-border rounded-2xl shadow-2xl p-8 fade-up">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">
-              Discord Image Uploader
-            </h1>
-            <p className="text-gray-600">
-              Upload and send images to Discord via webhook
-            </p>
+    <>
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        input:focus {
+          border-color: #10b981 !important;
+        }
+      `}</style>
+      <div style={styles.container}>
+        <div style={styles.card}>
+          <div style={styles.header}>
+            <h1 style={styles.title}>Discord Image Uploader</h1>
+            <p style={styles.subtitle}>Upload and send images to Discord via webhook</p>
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Discord Webhook URL
-              </label>
+          <div>
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Discord Webhook URL</label>
               <input
                 type="url"
                 value={webhook}
                 onChange={(e) => setWebhook(e.target.value)}
                 placeholder="https://discord.com/api/webhooks/..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                style={styles.input}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message (Optional)
-              </label>
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Message (Optional)</label>
               <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Add a message with your image..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                style={styles.input}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Upload Image
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Upload Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+                id="file-upload"
+              />
+              <label htmlFor="file-upload" style={styles.uploadArea}>
+                <div style={{ textAlign: 'center' }}>
+                  <Upload style={{ margin: '0 auto 0.75rem', color: '#10b981' }} size={48} />
+                  <span style={{ color: '#059669', fontWeight: '500' }}>
+                    {image ? image.name : 'Click to upload an image'}
+                  </span>
+                </div>
               </label>
-              <div className="relative">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  id="file-upload"
-                />
-                <label
-                  htmlFor="file-upload"
-                  className="flex items-center justify-center w-full px-4 py-8 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition-colors bg-gray-50"
-                >
-                  <div className="text-center">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400 mb-2" />
-                    <span className="text-gray-600">
-                      {image ? image.name : 'Click to upload an image'}
-                    </span>
-                  </div>
-                </label>
-              </div>
             </div>
 
             {preview && (
-              <div className="mt-4 fade-up">
-                <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="w-full h-64 object-cover rounded-lg shadow-md image-hover"
-                />
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Preview:</label>
+                <img src={preview} alt="Preview" style={styles.preview} />
               </div>
             )}
 
             <button
               onClick={handleSubmit}
               disabled={loading || !image || !webhook}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg glow-button hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              style={{
+                ...styles.button,
+                ...(loading || !image || !webhook ? styles.buttonDisabled : {})
+              }}
             >
               {loading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div style={styles.spinner}></div>
                   Sending...
                 </>
               ) : (
                 <>
-                  <Send className="h-5 w-5" />
+                  <Send size={20} />
                   Send to Discord
                 </>
               )}
@@ -153,16 +305,15 @@ export default function ImageUploader() {
 
             {status && (
               <div
-                className={`flex items-center gap-2 p-4 rounded-lg fade-up ${
-                  status.startsWith('success')
-                    ? 'bg-green-50 text-green-800'
-                    : 'bg-red-50 text-red-800'
-                }`}
+                style={{
+                  ...styles.alert,
+                  ...(status.startsWith('success') ? styles.alertSuccess : styles.alertError)
+                }}
               >
                 {status.startsWith('success') ? (
-                  <CheckCircle className="h-5 w-5" />
+                  <CheckCircle size={20} />
                 ) : (
-                  <AlertCircle className="h-5 w-5" />
+                  <AlertCircle size={20} />
                 )}
                 <span>{status.split(':')[1]}</span>
               </div>
@@ -170,17 +321,18 @@ export default function ImageUploader() {
           </div>
         </div>
 
-        <div className="mt-8 bg-white bg-opacity-90 rounded-lg p-6 text-sm text-gray-700 fade-up">
-          <h3 className="font-semibold mb-2">How to get your Discord Webhook:</h3>
-          <ol className="list-decimal list-inside space-y-1">
+        <div style={styles.instructions}>
+          <h3 style={styles.instructionsTitle}>
+            How to get your Discord Webhook:
+          </h3>
+          <ol style={styles.instructionsList}>
             <li>Go to your Discord server settings</li>
             <li>Navigate to Integrations → Webhooks</li>
-            <li>Click "New Webhook"</li>
+            <li>Click "New Webhook" or select an existing one</li>
             <li>Copy the webhook URL and paste it above</li>
           </ol>
         </div>
       </div>
-    </div>
+    </>
   );
 }
-
